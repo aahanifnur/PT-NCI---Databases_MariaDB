@@ -1,0 +1,36 @@
+Nama    : Ahmad Auliya Hanif Nur
+Tugas   : 6 Maria DB
+Mentor  : Reza Maulana
+Instansi: Politeknik Negeri Semarang
+
+
+-- masuk ke database dbpos --
+
+    USE dbpos;
+
+-- no 1. buat inner join 4 table --
+-- table offices: addressLine1, phone, city as kota --
+-- table employees: firstName, email, jobTitle --
+-- table customers: customerName, phone as telp, city --
+-- table payments: paymentDate, amount --
+
+    SELECT c.customerName, c.phone AS telp, c.city,
+    p.paymentDate, p.amount, e.firstName, e.email, e.jobTitle,
+    o.addressLine1, o.phone, o.city AS kota FROM customers c
+    INNER JOIN payments p ON p.customerNumber = c.customerNumber
+    INNER JOIN employees e ON e.employeeNumber = c.salesRepEmployeeNumber
+    INNER JOIN offices o ON o.officeCode = e.officeCode;
+
+-- no 2 buat tabel viewnya: customer_vw --
+
+    CREATE VIEW customer_vw AS
+    SELECT c.customerName, c.phone AS telp, c.city,
+    p.paymentDate, p.amount, e.firstName, e.email, e.jobTitle,
+    o.addressLine1, o.phone, o.city AS kota FROM customers c
+    INNER JOIN payments p ON p.customerNumber = c.customerNumber
+    INNER JOIN employees e ON e.employeeNumber = c.salesRepEmployeeNumber
+    INNER JOIN offices o ON o.officeCode = e.officeCode;
+
+-- tampilkan table view customer_vw --
+
+    SELECT * FROM customer_vw;

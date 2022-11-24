@@ -1,0 +1,16 @@
+Nama    : Ahmad Auliya Hanif Nur
+Tugas   : 5 Maria DB
+Mentor  : Reza Maulana
+Instansi: Politeknik Negeri Semarang
+-- masuk data base dbpos --
+USE dbpos;
+
+-- inner join table employees (4 field bebas) dengan offices (3 field bebas) --
+SELECT employees.firstName, employees.lastName, employees.email, offices.phone, offices.city, offices.country, employees.jobTitle FROM offices INNER JOIN employees ON offices.officeCode = employees.officeCode;
+
+-- inner join table employees (4 field bebas) dengan offices (3 field bebas) dengan mengaliskan tabelnya --
+SELECT e.firstName, e.lastName, e.email, o.phone, o.city, o.country, e.jobTitle FROM offices o INNER JOIN employees e ON o.officeCode = e.officeCode;
+
+-- outer join table employees (4 field bebas) dengan offices (3 field bebas) dengan mengaliskan tabelnya --
+SELECT e.firstName, e.lastName, e.email, o.phone, o.city, o.country, e.jobTitle FROM offices o LEFT JOIN employees e ON o.officeCode = e.officeCode WHERE e.officeCode IS NULL;
+SELECT e.firstName, e.lastName, e.email, o.phone, o.city, o.country, e.jobTitle FROM offices o RIGHT JOIN employees e ON o.officeCode = e.officeCode WHERE e.officeCode IS NULL;

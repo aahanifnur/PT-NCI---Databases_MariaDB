@@ -1,0 +1,230 @@
+Nama    : Ahmad Auliya Hanif Nur
+Tugas   : 2 Maria DB
+Mentor  : Reza Maulana
+Instansi: Politeknik Negeri Semarang
+
+-- ============================================================================================= --
+C:\Users\User>cd C:\xampp\mysql\bin
+
+C:\xampp\mysql\bin>mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 12
+Server version: 10.4.21-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> USE dbpegawai;
+Database changed
+MariaDB [dbpegawai]> SHOW tables;
++---------------------+
+| Tables_in_dbpegawai |
++---------------------+
+| divisi              |
+| pegawai             |
++---------------------+
+2 rows in set (0.002 sec)
+
+MariaDB [dbpegawai]> DESC divisi;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | int(11)     | NO   | PRI | NULL    | auto_increment |
+| name  | varchar(30) | NO   | UNI | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+2 rows in set (0.041 sec)
+
+MariaDB [dbpegawai]> DESC pegawai;
++-----------+-----------------------+------+-----+---------+----------------+
+| Field     | Type                  | Null | Key | Default | Extra          |
++-----------+-----------------------+------+-----+---------+----------------+
+| id        | int(11)               | NO   | PRI | NULL    | auto_increment |
+| nip       | char(5)               | NO   | UNI | NULL    |                |
+| name      | varchar(30)           | NO   |     | NULL    |                |
+| gender    | enum('Male','Female') | NO   |     | NULL    |                |
+| tmp_lahir | varchar(30)           | NO   |     | NULL    |                |
+| tgl_lahir | date                  | NO   |     | NULL    |                |
+| divisi_id | int(11)               | NO   |     | NULL    |                |
+| address   | text                  | YES  |     | NULL    |                |
++-----------+-----------------------+------+-----+---------+----------------+
+8 rows in set (0.047 sec)
+
+MariaDB [dbpegawai]> insert into divisi (name) values
+    -> ('SDM'),
+    -> ('Keuangan'),
+    -> ('Marketing'),
+    -> ('IT');
+Query OK, 4 rows affected (0.078 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+MariaDB [dbpegawai]> insert into pegawai (nip,name,gender,tmp_lahir,tgl_lahir,divisi_id,address) values
+    -> ('001','Mega','p','Cirebon','19','1','Harjamukti'),
+    -> ('002','Firdy','l','Cirebon','20','1','Sumber'),
+    -> ('003','Sulis','p','Cirebon','22','1','Kanoman'),
+    -> ('004','Diva','p','Cirebon','20','1','Perumnas'),
+    -> ('005','Dhendy','l','Cirebon','23','1','Sumber'),
+    -> ('006','Ainun','p','Kuningan','17','2','Cilimus'),
+    -> ('007','Adit','l','Kuningan','13','2','Palutungan'),
+    -> ('008','Alvina','p','Kuningan','22','2','Beber'),
+    -> ('009','Nabil','l','Yogyakarta','20','2','Sleman'),
+    -> ('010','Awa','p','Yogyakarta','12','2','Kaliurang'),
+    -> ('011','Dhea','p','Tasikmalaya','15','3','Pataruman'),
+    -> ('012','Pasya','l','Tasikmalaya','13','3','Pataruman'),
+    -> ('013','Zahra','p','Tasikmalaya','16','3','Kawalu'),
+    -> ('014','Fadil','l','Jepara','08','3','Mayong'),
+    -> ('015','Fahira','p','Jepara','21','3','Mayong'),
+    -> ('016','Dika','l','Surakarta','11','4','Manahan'),
+    -> ('017','Hanna','p','Surakarta','07','4','Manahan'),
+    -> ('018','Faris','l','Surakarta','05','4','gonilan'),
+    -> ('019','Liza','p','Surakarta','24','4','gonilan'),
+    -> ('020','Evan','l','Bandung','34','4','Majalaya');
+Query OK, 20 rows affected, 40 warnings (0.099 sec)
+Records: 20  Duplicates: 0  Warnings: 40
+
+MariaDB [dbpegawai]> alter table divisi add column divisi_id int;
+Query OK, 0 rows affected (0.289 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [dbpegawai]> select *from divisi;
++----+-----------+-----------+
+| id | name      | divisi_id |
++----+-----------+-----------+
+|  1 | SDM       |      NULL |
+|  2 | Keuangan  |      NULL |
+|  3 | Marketing |      NULL |
+|  4 | IT        |      NULL |
++----+-----------+-----------+
+4 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> select *from pegawai;
++----+-----+--------+--------+-------------+------------+-----------+------------+
+| id | nip | name   | gender | tmp_lahir   | tgl_lahir  | divisi_id | address    |
++----+-----+--------+--------+-------------+------------+-----------+------------+
+|  1 | 001 | Mega   |        | Cirebon     | 0000-00-00 |         1 | Harjamukti |
+|  2 | 002 | Firdy  |        | Cirebon     | 0000-00-00 |         1 | Sumber     |
+|  3 | 003 | Sulis  |        | Cirebon     | 0000-00-00 |         1 | Kanoman    |
+|  4 | 004 | Diva   |        | Cirebon     | 0000-00-00 |         1 | Perumnas   |
+|  5 | 005 | Dhendy |        | Cirebon     | 0000-00-00 |         1 | Sumber     |
+|  6 | 006 | Ainun  |        | Kuningan    | 0000-00-00 |         2 | Cilimus    |
+|  7 | 007 | Adit   |        | Kuningan    | 0000-00-00 |         2 | Palutungan |
+|  8 | 008 | Alvina |        | Kuningan    | 0000-00-00 |         2 | Beber      |
+|  9 | 009 | Nabil  |        | Yogyakarta  | 0000-00-00 |         2 | Sleman     |
+| 10 | 010 | Awa    |        | Yogyakarta  | 0000-00-00 |         2 | Kaliurang  |
+| 11 | 011 | Dhea   |        | Tasikmalaya | 0000-00-00 |         3 | Pataruman  |
+| 12 | 012 | Pasya  |        | Tasikmalaya | 0000-00-00 |         3 | Pataruman  |
+| 13 | 013 | Zahra  |        | Tasikmalaya | 0000-00-00 |         3 | Kawalu     |
+| 14 | 014 | Fadil  |        | Jepara      | 0000-00-00 |         3 | Mayong     |
+| 15 | 015 | Fahira |        | Jepara      | 0000-00-00 |         3 | Mayong     |
+| 16 | 016 | Dika   |        | Surakarta   | 0000-00-00 |         4 | Manahan    |
+| 17 | 017 | Hanna  |        | Surakarta   | 0000-00-00 |         4 | Manahan    |
+| 18 | 018 | Faris  |        | Surakarta   | 0000-00-00 |         4 | gonilan    |
+| 19 | 019 | Liza   |        | Surakarta   | 0000-00-00 |         4 | gonilan    |
+| 20 | 020 | Evan   |        | Bandung     | 0000-00-00 |         4 | Majalaya   |
++----+-----+--------+--------+-------------+------------+-----------+------------+
+20 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> update pegawai set name = 'Winda', tmp_lahir = 'Jakarta' where id = 2;
+Query OK, 1 row affected (0.101 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> update pegawai set name = 'Andika', tmp_lahir = 'Jakarta' where id = 4;
+Query OK, 1 row affected (0.072 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> update pegawai set name = 'Siti', tmp_lahir = 'Bandung' where id = 8;
+Query OK, 1 row affected (0.221 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> update pegawai set name = 'Daffa', tmp_lahir = 'Bogor' where id = 20;
+Query OK, 1 row affected (0.075 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> update pegawai set name = 'Erik', tmp_lahir = 'Surakarta' where id = 18;
+Query OK, 1 row affected (0.078 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> select *from pegawai;
++----+-----+--------+--------+-------------+------------+-----------+------------+
+| id | nip | name   | gender | tmp_lahir   | tgl_lahir  | divisi_id | address    |
++----+-----+--------+--------+-------------+------------+-----------+------------+
+|  1 | 001 | Mega   |        | Cirebon     | 0000-00-00 |         1 | Harjamukti |
+|  2 | 002 | Winda  |        | Jakarta     | 0000-00-00 |         1 | Sumber     |
+|  3 | 003 | Sulis  |        | Cirebon     | 0000-00-00 |         1 | Kanoman    |
+|  4 | 004 | Andika |        | Jakarta     | 0000-00-00 |         1 | Perumnas   |
+|  5 | 005 | Dhendy |        | Cirebon     | 0000-00-00 |         1 | Sumber     |
+|  6 | 006 | Ainun  |        | Kuningan    | 0000-00-00 |         2 | Cilimus    |
+|  7 | 007 | Adit   |        | Kuningan    | 0000-00-00 |         2 | Palutungan |
+|  8 | 008 | Siti   |        | Bandung     | 0000-00-00 |         2 | Beber      |
+|  9 | 009 | Nabil  |        | Yogyakarta  | 0000-00-00 |         2 | Sleman     |
+| 10 | 010 | Awa    |        | Yogyakarta  | 0000-00-00 |         2 | Kaliurang  |
+| 11 | 011 | Dhea   |        | Tasikmalaya | 0000-00-00 |         3 | Pataruman  |
+| 12 | 012 | Pasya  |        | Tasikmalaya | 0000-00-00 |         3 | Pataruman  |
+| 13 | 013 | Zahra  |        | Tasikmalaya | 0000-00-00 |         3 | Kawalu     |
+| 14 | 014 | Fadil  |        | Jepara      | 0000-00-00 |         3 | Mayong     |
+| 15 | 015 | Fahira |        | Jepara      | 0000-00-00 |         3 | Mayong     |
+| 16 | 016 | Dika   |        | Surakarta   | 0000-00-00 |         4 | Manahan    |
+| 17 | 017 | Hanna  |        | Surakarta   | 0000-00-00 |         4 | Manahan    |
+| 18 | 018 | Erik   |        | Surakarta   | 0000-00-00 |         4 | gonilan    |
+| 19 | 019 | Liza   |        | Surakarta   | 0000-00-00 |         4 | gonilan    |
+| 20 | 020 | Daffa  |        | Bogor       | 0000-00-00 |         4 | Majalaya   |
++----+-----+--------+--------+-------------+------------+-----------+------------+
+20 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> delete from pegawai where id = 20;
+Query OK, 1 row affected (0.128 sec)
+
+MariaDB [dbpegawai]> select *from pegawai;
++----+-----+--------+--------+-------------+------------+-----------+------------+
+| id | nip | name   | gender | tmp_lahir   | tgl_lahir  | divisi_id | address    |
++----+-----+--------+--------+-------------+------------+-----------+------------+
+|  1 | 001 | Mega   |        | Cirebon     | 0000-00-00 |         1 | Harjamukti |
+|  2 | 002 | Winda  |        | Jakarta     | 0000-00-00 |         1 | Sumber     |
+|  3 | 003 | Sulis  |        | Cirebon     | 0000-00-00 |         1 | Kanoman    |
+|  4 | 004 | Andika |        | Jakarta     | 0000-00-00 |         1 | Perumnas   |
+|  5 | 005 | Dhendy |        | Cirebon     | 0000-00-00 |         1 | Sumber     |
+|  6 | 006 | Ainun  |        | Kuningan    | 0000-00-00 |         2 | Cilimus    |
+|  7 | 007 | Adit   |        | Kuningan    | 0000-00-00 |         2 | Palutungan |
+|  8 | 008 | Siti   |        | Bandung     | 0000-00-00 |         2 | Beber      |
+|  9 | 009 | Nabil  |        | Yogyakarta  | 0000-00-00 |         2 | Sleman     |
+| 10 | 010 | Awa    |        | Yogyakarta  | 0000-00-00 |         2 | Kaliurang  |
+| 11 | 011 | Dhea   |        | Tasikmalaya | 0000-00-00 |         3 | Pataruman  |
+| 12 | 012 | Pasya  |        | Tasikmalaya | 0000-00-00 |         3 | Pataruman  |
+| 13 | 013 | Zahra  |        | Tasikmalaya | 0000-00-00 |         3 | Kawalu     |
+| 14 | 014 | Fadil  |        | Jepara      | 0000-00-00 |         3 | Mayong     |
+| 15 | 015 | Fahira |        | Jepara      | 0000-00-00 |         3 | Mayong     |
+| 16 | 016 | Dika   |        | Surakarta   | 0000-00-00 |         4 | Manahan    |
+| 17 | 017 | Hanna  |        | Surakarta   | 0000-00-00 |         4 | Manahan    |
+| 18 | 018 | Erik   |        | Surakarta   | 0000-00-00 |         4 | gonilan    |
+| 19 | 019 | Liza   |        | Surakarta   | 0000-00-00 |         4 | gonilan    |
++----+-----+--------+--------+-------------+------------+-----------+------------+
+19 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> delete from pegawai where id = 19;
+Query OK, 1 row affected (0.048 sec)
+
+MariaDB [dbpegawai]> select *from pegawai;
++----+-----+--------+--------+-------------+------------+-----------+------------+
+| id | nip | name   | gender | tmp_lahir   | tgl_lahir  | divisi_id | address    |
++----+-----+--------+--------+-------------+------------+-----------+------------+
+|  1 | 001 | Mega   |        | Cirebon     | 0000-00-00 |         1 | Harjamukti |
+|  2 | 002 | Winda  |        | Jakarta     | 0000-00-00 |         1 | Sumber     |
+|  3 | 003 | Sulis  |        | Cirebon     | 0000-00-00 |         1 | Kanoman    |
+|  4 | 004 | Andika |        | Jakarta     | 0000-00-00 |         1 | Perumnas   |
+|  5 | 005 | Dhendy |        | Cirebon     | 0000-00-00 |         1 | Sumber     |
+|  6 | 006 | Ainun  |        | Kuningan    | 0000-00-00 |         2 | Cilimus    |
+|  7 | 007 | Adit   |        | Kuningan    | 0000-00-00 |         2 | Palutungan |
+|  8 | 008 | Siti   |        | Bandung     | 0000-00-00 |         2 | Beber      |
+|  9 | 009 | Nabil  |        | Yogyakarta  | 0000-00-00 |         2 | Sleman     |
+| 10 | 010 | Awa    |        | Yogyakarta  | 0000-00-00 |         2 | Kaliurang  |
+| 11 | 011 | Dhea   |        | Tasikmalaya | 0000-00-00 |         3 | Pataruman  |
+| 12 | 012 | Pasya  |        | Tasikmalaya | 0000-00-00 |         3 | Pataruman  |
+| 13 | 013 | Zahra  |        | Tasikmalaya | 0000-00-00 |         3 | Kawalu     |
+| 14 | 014 | Fadil  |        | Jepara      | 0000-00-00 |         3 | Mayong     |
+| 15 | 015 | Fahira |        | Jepara      | 0000-00-00 |         3 | Mayong     |
+| 16 | 016 | Dika   |        | Surakarta   | 0000-00-00 |         4 | Manahan    |
+| 17 | 017 | Hanna  |        | Surakarta   | 0000-00-00 |         4 | Manahan    |
+| 18 | 018 | Erik   |        | Surakarta   | 0000-00-00 |         4 | gonilan    |
++----+-----+--------+--------+-------------+------------+-----------+------------+
+18 rows in set (0.001 sec)

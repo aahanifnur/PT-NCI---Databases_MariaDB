@@ -1,0 +1,104 @@
+Nama    : Ahmad Auliya Hanif Nur
+Tugas   : 7 Maria DB
+Mentor  : Reza Maulana
+Instansi: Politeknik Negeri Semarang
+
+
+-- masuk database dbpegawai_msib --
+USE dbpegawai_msib;
+
+-- buat index untuk kolom nama pegawai dengan nama: nama_pegawai_idx --
+CREATE INDEX pegawai_idx ON pegawai(nama);
+
+-- buat fungsi inputJabatan, setelah itu panggil fungsinya --
+DELIMITER $$
+CREATE PROCEDURE inputJabatan(nama varchar(45))
+BEGIN
+    INSERT INTO jabatan (nama) VALUES (nama);
+END$$
+DELIMITER ;
+
+-- panggil fungsi inputJabatan() --
+CALL inputJabatan('Staff');
+
+-- tampilkan seluruh data dari tabel jabatan --
+SELECT * FROM jabatan;
+
+-- buat fungsi inputPegawai ada 8 parameter, setelah itu panggil fungsinya --
+DELIMITER $$
+CREATE PROCEDURE inputPegawai(nip char(3), nama varchar(45), jabatan_id int, divisi_id int, gender enum('L', 'P'), tmp_lahir varchar(45), tgl_lahir date, alamat text)
+BEGIN
+    INSERT INTO pegawai (nip, nama, jabatan_id, divisi_id, gender, tmp_lahir, tgl_lahir, alamat) 
+    VALUES (nip, nama, jabatan_id, divisi_id, gender, tmp_lahir, tgl_lahir, alamat);
+END$$
+DELIMITER ;
+
+-- panggil fungsi inputPegawai() --
+CALL inputPegawai('123', 'Budi Andriansyah', 3, 1, 'L', 'Depok', '1998-04-18', 'Depok');
+
+-- buat fungsi showPegawai, setelah itu panggil fungsinya --
+DELIMITER $$
+CREATE PROCEDURE showPegawai()
+BEGIN
+    SELECT * FROM pegawai;
+END$$
+DELIMITER ;
+
+-- panggil fungsi showPegawai() --
+CALL showPegawai();
+
+-- buat fungsi inputGaji ada 3 parameter: gapok, tunjab dan pegawai_id, setelah itu panggil fungsinya --
+DELIMITER $$
+CREATE PROCEDURE inputGaji(gapok double, tunjab double, pegawai_id int)
+BEGIN
+    INSERT INTO gaji (gapok, tunjab, pegawai_id) VALUES (gapok, tunjab, pegawai_id);
+END$$
+DELIMITER ;
+
+-- panggil fungsi inputGaji() --
+CALL inputGaji(7000000, 1400000, 1);
+
+-- buat fungsi showGaji, setelah itu panggil fungsinya --
+DELIMITER $$
+CREATE PROCEDURE showGaji()
+BEGIN
+    SELECT * FROM gaji;
+END$$
+DELIMITER ;
+
+-- panggil fungsi showGaji() --
+CALL showGaji();
+
+-- buat fungsi totalGaji ada 3 paramter: in gapok, in tunjab, out total, setelah itu panggil fungsinya --
+DELIMITER $$
+CREATE PROCEDURE totalGaji(in id_pegawai int, out total double)
+BEGIN
+	SELECT SUM(gapok + tunjab) INTO total FROM gaji WHERE pegawai_id = id_pegawai;
+	SET total = total;
+    SELECT @total;
+END$$
+DELIMITER ;
+
+-- panggil fungsi totalGaji() --
+SET @pegawaiID = 1;
+CALL totalGaji(@pegawaiID, @toga);
+SELECT @toga AS total_gaji;
+
+-- tampilkan slip gaji --
+-- inner join 4 table: divisi, jabatan, pegawai dan gaji --
+SELECT pegawai.nip, pegawai.nama, jabatan.nama AS posisi, divisi.nama AS departemen,
+gaji.gapok, gaji.tunjab, @toga AS total_gaji FROM pegawai
+INNER JOIN gaji ON gaji.pegawai_id = pegawai.id
+INNER JOIN divisi ON divisi.id = pegawai.divisi_id
+INNER JOIN jabatan ON jabatan.id = pegawai.jabatan_id;
+
+-- membuat table view atau bayangan bernama: slip_gaji_pegawai_vw --
+CREATE VIEW slip_gaji_pegawai_vw AS
+SELECT pegawai.nip, pegawai.nama, jabatan.nama AS posisi, divisi.nama AS departemen,
+gaji.gapok, gaji.tunjab, (gaji.gapok + gaji.tunjab) AS total_gaji FROM pegawai
+INNER JOIN gaji ON gaji.pegawai_id = pegawai.id
+INNER JOIN divisi ON divisi.id = pegawai.divisi_id
+INNER JOIN jabatan ON jabatan.id = pegawai.jabatan_id;
+
+-- tampilkan fungsi table view --
+SELECT * FROM slip_gaji_pegawai_vw;

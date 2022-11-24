@@ -1,0 +1,352 @@
+Nama    : Ahmad Auliya Hanif Nur
+Tugas   : 3 Maria DB
+Mentor  : Reza Maulana
+Instansi: Politeknik Negeri Semarang
+
+-- ============================================================================================= --
+C:\Users\User>cd C:\xampp\mysql\bin
+
+C:\xampp\mysql\bin>mysql -u root -p dbpegawai
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 87
+Server version: 10.4.21-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [dbpegawai]> SHOW tables;
++---------------------+
+| Tables_in_dbpegawai |
++---------------------+
+| divisi              |
+| pegawai             |
++---------------------+
+2 rows in set (0.004 sec)
+
+MariaDB [dbpegawai]> DESC divisi;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| id        | int(11)     | NO   | PRI | NULL    | auto_increment |
+| name      | varchar(30) | NO   | UNI | NULL    |                |
+| divisi_id | int(11)     | YES  |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+3 rows in set (0.217 sec)
+
+MariaDB [dbpegawai]> DESC pegawai;
++-----------+-----------------------+------+-----+---------+----------------+
+| Field     | Type                  | Null | Key | Default | Extra          |
++-----------+-----------------------+------+-----+---------+----------------+
+| id        | int(11)               | NO   | PRI | NULL    | auto_increment |
+| nip       | char(5)               | NO   | UNI | NULL    |                |
+| name      | varchar(30)           | NO   |     | NULL    |                |
+| gender    | enum('Male','Female') | NO   |     | NULL    |                |
+| tmp_lahir | varchar(30)           | NO   |     | NULL    |                |
+| tgl_lahir | date                  | NO   |     | NULL    |                |
+| divisi_id | int(11)               | NO   |     | NULL    |                |
+| address   | text                  | YES  |     | NULL    |                |
++-----------+-----------------------+------+-----+---------+----------------+
+8 rows in set (0.068 sec)
+
+MariaDB [dbpegawai]> ALTER table pegawai
+    -> ADD COLUMN IF NOT EXISTS
+    -> berat_badan char(2) NOT NULL AFTER gender;
+Query OK, 0 rows affected (1.135 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai;
++----+-----+--------+--------+-------------+-------------+------------+-----------+---------------+
+| id | nip | name   | gender | berat_badan | tmp_lahir   | tgl_lahir  | divisi_id | address       |
++----+-----+--------+--------+-------------+-------------+------------+-----------+---------------+
+|  1 | 001 | Mega   | Female | 40          | Cirebon     | 2002-08-20 |         1 | Harjamukti    |
+|  2 | 002 | Winda  | Female | 60          | Jakarta     | 1990-04-15 |         1 | cibinong      |
+|  3 | 003 | Sulis  | Female | 50          | Cirebon     | 2000-03-22 |         1 | Kanoman       |
+|  4 | 004 | Andika | Male   | 63          | Jakarta     | 1989-10-05 |         1 | Kelapa Gading |
+|  5 | 005 | Dhendy | Male   | 66          | Cirebon     | 2001-10-23 |         1 | Sumber        |
+|  6 | 006 | Ainun  | Female | 50          | Kuningan    | 2002-12-17 |         2 | Cilimus       |
+|  7 | 007 | Adit   | Male   | 44          | Kuningan    | 2003-03-13 |         2 | Palutungan    |
+|  8 | 008 | Siti   | Female | 28          | Bandung     | 2008-02-03 |         2 | Majalaya      |
+|  9 | 009 | Nabil  | Male   | 61          | Yogyakarta  | 2001-02-20 |         2 | Sleman        |
+| 10 | 010 | Awa    | Female | 66          | Yogyakarta  | 2002-06-12 |         2 | Kaliurang     |
+| 11 | 011 | Dhea   | Female | 50          | Tasikmalaya | 2001-07-15 |         3 | Pataruman     |
+| 12 | 012 | Pasya  | Male   | 45          | Tasikmalaya | 2004-03-13 |         3 | Pataruman     |
+| 13 | 013 | Zahra  | Female | 30          | Tasikmalaya | 2005-05-16 |         3 | Kawalu        |
+| 14 | 014 | Fadil  | Male   | 28          | Jepara      | 2006-01-08 |         3 | Mayong        |
+| 15 | 015 | Fahira | Female | 33          | Jepara      | 2003-12-21 |         3 | Mayong        |
+| 16 | 016 | Dika   | Male   | 70          | Surakarta   | 2000-11-11 |         4 | Manahan       |
+| 17 | 017 | Hanna  | Female | 65          | Surakarta   | 2001-09-07 |         4 | Manahan       |
+| 18 | 018 | Erik   | Male   | 69          | Surakarta   | 2003-03-02 |         4 | gonilan       |
++----+-----+--------+--------+-------------+-------------+------------+-----------+---------------+
+18 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT nip, name, gender, address FROM pegawai;
++-----+--------+--------+---------------+
+| nip | name   | gender | address       |
++-----+--------+--------+---------------+
+| 001 | Mega   | Female | Harjamukti    |
+| 002 | Winda  | Female | cibinong      |
+| 003 | Sulis  | Female | Kanoman       |
+| 004 | Andika | Male   | Kelapa Gading |
+| 005 | Dhendy | Male   | Sumber        |
+| 006 | Ainun  | Female | Cilimus       |
+| 007 | Adit   | Male   | Palutungan    |
+| 008 | Siti   | Female | Majalaya      |
+| 009 | Nabil  | Male   | Sleman        |
+| 010 | Awa    | Female | Kaliurang     |
+| 011 | Dhea   | Female | Pataruman     |
+| 012 | Pasya  | Male   | Pataruman     |
+| 013 | Zahra  | Female | Kawalu        |
+| 014 | Fadil  | Male   | Mayong        |
+| 015 | Fahira | Female | Mayong        |
+| 016 | Dika   | Male   | Manahan       |
+| 017 | Hanna  | Female | Manahan       |
+| 018 | Erik   | Male   | gonilan       |
++-----+--------+--------+---------------+
+18 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai WHERE gender = 'Male';
++----+-----+--------+--------+-------------+-------------+------------+-----------+---------------+
+| id | nip | name   | gender | berat_badan | tmp_lahir   | tgl_lahir  | divisi_id | address       |
++----+-----+--------+--------+-------------+-------------+------------+-----------+---------------+
+|  4 | 004 | Andika | Male   | 63          | Jakarta     | 1989-10-05 |         1 | Kelapa Gading |
+|  5 | 005 | Dhendy | Male   | 66          | Cirebon     | 2001-10-23 |         1 | Sumber        |
+|  7 | 007 | Adit   | Male   | 44          | Kuningan    | 2003-03-13 |         2 | Palutungan    |
+|  9 | 009 | Nabil  | Male   | 61          | Yogyakarta  | 2001-02-20 |         2 | Sleman        |
+| 12 | 012 | Pasya  | Male   | 45          | Tasikmalaya | 2004-03-13 |         3 | Pataruman     |
+| 14 | 014 | Fadil  | Male   | 28          | Jepara      | 2006-01-08 |         3 | Mayong        |
+| 16 | 016 | Dika   | Male   | 70          | Surakarta   | 2000-11-11 |         4 | Manahan       |
+| 18 | 018 | Erik   | Male   | 69          | Surakarta   | 2003-03-02 |         4 | gonilan       |
++----+-----+--------+--------+-------------+-------------+------------+-----------+---------------+
+8 rows in set (0.002 sec)
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai WHERE address = 'Pataruman';
++----+-----+-------+--------+-------------+-------------+------------+-----------+-----------+
+| id | nip | name  | gender | berat_badan | tmp_lahir   | tgl_lahir  | divisi_id | address   |
++----+-----+-------+--------+-------------+-------------+------------+-----------+-----------+
+| 11 | 011 | Dhea  | Female | 50          | Tasikmalaya | 2001-07-15 |         3 | Pataruman |
+| 12 | 012 | Pasya | Male   | 45          | Tasikmalaya | 2004-03-13 |         3 | Pataruman |
++----+-----+-------+--------+-------------+-------------+------------+-----------+-----------+
+2 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT *, YEAR(CURDATE()) - YEAR(tgl_lahir) AS umur FROM pegawai WHERE YEAR(CURDATE()) - YEAR(tgl_lahir) > 30 AND tmp_lahir = 'Jakarta';
++----+-----+--------+--------+-------------+-----------+------------+-----------+---------------+------+
+| id | nip | name   | gender | berat_badan | tmp_lahir | tgl_lahir  | divisi_id | address       | umur |
++----+-----+--------+--------+-------------+-----------+------------+-----------+---------------+------+
+|  2 | 002 | Winda  | Female | 60          | Jakarta   | 1990-04-15 |         1 | cibinong      |   32 |
+|  4 | 004 | Andika | Male   | 63          | Jakarta   | 1989-10-05 |         1 | Kelapa Gading |   33 |
++----+-----+--------+--------+-------------+-----------+------------+-----------+---------------+------+
+2 rows in set (0.004 sec)
+
+MariaDB [dbpegawai]> SELECT *, YEAR(CURDATE()) - YEAR(tgl_lahir) AS umur FROM pegawai WHERE nip = 002;
++----+-----+-------+--------+-------------+-----------+------------+-----------+----------+------+
+| id | nip | name  | gender | berat_badan | tmp_lahir | tgl_lahir  | divisi_id | address  | umur |
++----+-----+-------+--------+-------------+-----------+------------+-----------+----------+------+
+|  2 | 002 | Winda | Female | 60          | Jakarta   | 1990-04-15 |         1 | cibinong |   32 |
++----+-----+-------+--------+-------------+-----------+------------+-----------+----------+------+
+1 row in set (0.062 sec)
+
+MariaDB [dbpegawai]> SELECT *, YEAR(CURDATE()) - YEAR(tgl_lahir) AS umur FROM pegawai WHERE gender = 'Male';
++----+-----+--------+--------+-------------+-------------+------------+-----------+---------------+------+
+| id | nip | name   | gender | berat_badan | tmp_lahir   | tgl_lahir  | divisi_id | address       | umur |
++----+-----+--------+--------+-------------+-------------+------------+-----------+---------------+------+
+|  4 | 004 | Andika | Male   | 63          | Jakarta     | 1989-10-05 |         1 | Kelapa Gading |   33 |
+|  5 | 005 | Dhendy | Male   | 66          | Cirebon     | 2001-10-23 |         1 | Sumber        |   21 |
+|  7 | 007 | Adit   | Male   | 44          | Kuningan    | 2003-03-13 |         2 | Palutungan    |   19 |
+|  9 | 009 | Nabil  | Male   | 61          | Yogyakarta  | 2001-02-20 |         2 | Sleman        |   21 |
+| 12 | 012 | Pasya  | Male   | 45          | Tasikmalaya | 2004-03-13 |         3 | Pataruman     |   18 |
+| 14 | 014 | Fadil  | Male   | 28          | Jepara      | 2006-01-08 |         3 | Mayong        |   16 |
+| 16 | 016 | Dika   | Male   | 70          | Surakarta   | 2000-11-11 |         4 | Manahan       |   22 |
+| 18 | 018 | Erik   | Male   | 69          | Surakarta   | 2003-03-02 |         4 | gonilan       |   19 |
++----+-----+--------+--------+-------------+-------------+------------+-----------+---------------+------+
+8 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT *, YEAR(CURDATE()) - YEAR(tgl_lahir) AS umur FROM pegawai WHERE gender = 'Female';
++----+-----+--------+--------+-------------+-------------+------------+-----------+------------+------+
+| id | nip | name   | gender | berat_badan | tmp_lahir   | tgl_lahir  | divisi_id | address    | umur |
++----+-----+--------+--------+-------------+-------------+------------+-----------+------------+------+
+|  1 | 001 | Mega   | Female | 40          | Cirebon     | 2002-08-20 |         1 | Harjamukti |   20 |
+|  2 | 002 | Winda  | Female | 60          | Jakarta     | 1990-04-15 |         1 | cibinong   |   32 |
+|  3 | 003 | Sulis  | Female | 50          | Cirebon     | 2000-03-22 |         1 | Kanoman    |   22 |
+|  6 | 006 | Ainun  | Female | 50          | Kuningan    | 2002-12-17 |         2 | Cilimus    |   20 |
+|  8 | 008 | Siti   | Female | 28          | Bandung     | 2008-02-03 |         2 | Majalaya   |   14 |
+| 10 | 010 | Awa    | Female | 66          | Yogyakarta  | 2002-06-12 |         2 | Kaliurang  |   20 |
+| 11 | 011 | Dhea   | Female | 50          | Tasikmalaya | 2001-07-15 |         3 | Pataruman  |   21 |
+| 13 | 013 | Zahra  | Female | 30          | Tasikmalaya | 2005-05-16 |         3 | Kawalu     |   17 |
+| 15 | 015 | Fahira | Female | 33          | Jepara      | 2003-12-21 |         3 | Mayong     |   19 |
+| 17 | 017 | Hanna  | Female | 65          | Surakarta   | 2001-09-07 |         4 | Manahan    |   21 |
++----+-----+--------+--------+-------------+-------------+------------+-----------+------------+------+
+10 rows in set (0.007 sec)
+
+MariaDB [dbpegawai]> SELECT *, YEAR(CURDATE()) - YEAR(tgl_lahir) AS umur FROM pegawai WHERE nip IN(003, 013);
++----+-----+-------+--------+-------------+-------------+------------+-----------+---------+------+
+| id | nip | name  | gender | berat_badan | tmp_lahir   | tgl_lahir  | divisi_id | address | umur |
++----+-----+-------+--------+-------------+-------------+------------+-----------+---------+------+
+|  3 | 003 | Sulis | Female | 50          | Cirebon     | 2000-03-22 |         1 | Kanoman |   22 |
+| 13 | 013 | Zahra | Female | 30          | Tasikmalaya | 2005-05-16 |         3 | Kawalu  |   17 |
++----+-----+-------+--------+-------------+-------------+------------+-----------+---------+------+
+2 rows in set (0.006 sec)
+
+MariaDB [dbpegawai]> SELECT *, YEAR(CURDATE()) - YEAR(tgl_lahir) AS umur FROM pegawai WHERE tmp_lahir NOT IN('Jakarta','Tasikmalaya');
++----+-----+--------+--------+-------------+------------+------------+-----------+------------+------+
+| id | nip | name   | gender | berat_badan | tmp_lahir  | tgl_lahir  | divisi_id | address    | umur |
++----+-----+--------+--------+-------------+------------+------------+-----------+------------+------+
+|  1 | 001 | Mega   | Female | 40          | Cirebon    | 2002-08-20 |         1 | Harjamukti |   20 |
+|  3 | 003 | Sulis  | Female | 50          | Cirebon    | 2000-03-22 |         1 | Kanoman    |   22 |
+|  5 | 005 | Dhendy | Male   | 66          | Cirebon    | 2001-10-23 |         1 | Sumber     |   21 |
+|  6 | 006 | Ainun  | Female | 50          | Kuningan   | 2002-12-17 |         2 | Cilimus    |   20 |
+|  7 | 007 | Adit   | Male   | 44          | Kuningan   | 2003-03-13 |         2 | Palutungan |   19 |
+|  8 | 008 | Siti   | Female | 28          | Bandung    | 2008-02-03 |         2 | Majalaya   |   14 |
+|  9 | 009 | Nabil  | Male   | 61          | Yogyakarta | 2001-02-20 |         2 | Sleman     |   21 |
+| 10 | 010 | Awa    | Female | 66          | Yogyakarta | 2002-06-12 |         2 | Kaliurang  |   20 |
+| 14 | 014 | Fadil  | Male   | 28          | Jepara     | 2006-01-08 |         3 | Mayong     |   16 |
+| 15 | 015 | Fahira | Female | 33          | Jepara     | 2003-12-21 |         3 | Mayong     |   19 |
+| 16 | 016 | Dika   | Male   | 70          | Surakarta  | 2000-11-11 |         4 | Manahan    |   22 |
+| 17 | 017 | Hanna  | Female | 65          | Surakarta  | 2001-09-07 |         4 | Manahan    |   21 |
+| 18 | 018 | Erik   | Male   | 69          | Surakarta  | 2003-03-02 |         4 | gonilan    |   19 |
++----+-----+--------+--------+-------------+------------+------------+-----------+------------+------+
+13 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT *, YEAR(CURDATE()) - YEAR(tgl_lahir) AS umur FROM pegawai ORDER BY name ASC;
++----+-----+--------+--------+-------------+-------------+------------+-----------+---------------+------+
+| id | nip | name   | gender | berat_badan | tmp_lahir   | tgl_lahir  | divisi_id | address       | umur |
++----+-----+--------+--------+-------------+-------------+------------+-----------+---------------+------+
+|  7 | 007 | Adit   | Male   | 44          | Kuningan    | 2003-03-13 |         2 | Palutungan    |   19 |
+|  6 | 006 | Ainun  | Female | 50          | Kuningan    | 2002-12-17 |         2 | Cilimus       |   20 |
+|  4 | 004 | Andika | Male   | 63          | Jakarta     | 1989-10-05 |         1 | Kelapa Gading |   33 |
+| 10 | 010 | Awa    | Female | 66          | Yogyakarta  | 2002-06-12 |         2 | Kaliurang     |   20 |
+| 11 | 011 | Dhea   | Female | 50          | Tasikmalaya | 2001-07-15 |         3 | Pataruman     |   21 |
+|  5 | 005 | Dhendy | Male   | 66          | Cirebon     | 2001-10-23 |         1 | Sumber        |   21 |
+| 16 | 016 | Dika   | Male   | 70          | Surakarta   | 2000-11-11 |         4 | Manahan       |   22 |
+| 18 | 018 | Erik   | Male   | 69          | Surakarta   | 2003-03-02 |         4 | gonilan       |   19 |
+| 14 | 014 | Fadil  | Male   | 28          | Jepara      | 2006-01-08 |         3 | Mayong        |   16 |
+| 15 | 015 | Fahira | Female | 33          | Jepara      | 2003-12-21 |         3 | Mayong        |   19 |
+| 17 | 017 | Hanna  | Female | 65          | Surakarta   | 2001-09-07 |         4 | Manahan       |   21 |
+|  1 | 001 | Mega   | Female | 40          | Cirebon     | 2002-08-20 |         1 | Harjamukti    |   20 |
+|  9 | 009 | Nabil  | Male   | 61          | Yogyakarta  | 2001-02-20 |         2 | Sleman        |   21 |
+| 12 | 012 | Pasya  | Male   | 45          | Tasikmalaya | 2004-03-13 |         3 | Pataruman     |   18 |
+|  8 | 008 | Siti   | Female | 28          | Bandung     | 2008-02-03 |         2 | Majalaya      |   14 |
+|  3 | 003 | Sulis  | Female | 50          | Cirebon     | 2000-03-22 |         1 | Kanoman       |   22 |
+|  2 | 002 | Winda  | Female | 60          | Jakarta     | 1990-04-15 |         1 | cibinong      |   32 |
+| 13 | 013 | Zahra  | Female | 30          | Tasikmalaya | 2005-05-16 |         3 | Kawalu        |   17 |
++----+-----+--------+--------+-------------+-------------+------------+-----------+---------------+------+
+18 rows in set (0.038 sec)
+
+MariaDB [dbpegawai]> SELECT *, YEAR(CURDATE()) - YEAR(tgl_lahir) AS umur FROM pegawai ORDER BY berat_badan DESC;
++----+-----+--------+--------+-------------+-------------+------------+-----------+---------------+------+
+| id | nip | name   | gender | berat_badan | tmp_lahir   | tgl_lahir  | divisi_id | address       | umur |
++----+-----+--------+--------+-------------+-------------+------------+-----------+---------------+------+
+| 16 | 016 | Dika   | Male   | 70          | Surakarta   | 2000-11-11 |         4 | Manahan       |   22 |
+| 18 | 018 | Erik   | Male   | 69          | Surakarta   | 2003-03-02 |         4 | gonilan       |   19 |
+|  5 | 005 | Dhendy | Male   | 66          | Cirebon     | 2001-10-23 |         1 | Sumber        |   21 |
+| 10 | 010 | Awa    | Female | 66          | Yogyakarta  | 2002-06-12 |         2 | Kaliurang     |   20 |
+| 17 | 017 | Hanna  | Female | 65          | Surakarta   | 2001-09-07 |         4 | Manahan       |   21 |
+|  4 | 004 | Andika | Male   | 63          | Jakarta     | 1989-10-05 |         1 | Kelapa Gading |   33 |
+|  9 | 009 | Nabil  | Male   | 61          | Yogyakarta  | 2001-02-20 |         2 | Sleman        |   21 |
+|  2 | 002 | Winda  | Female | 60          | Jakarta     | 1990-04-15 |         1 | cibinong      |   32 |
+|  3 | 003 | Sulis  | Female | 50          | Cirebon     | 2000-03-22 |         1 | Kanoman       |   22 |
+|  6 | 006 | Ainun  | Female | 50          | Kuningan    | 2002-12-17 |         2 | Cilimus       |   20 |
+| 11 | 011 | Dhea   | Female | 50          | Tasikmalaya | 2001-07-15 |         3 | Pataruman     |   21 |
+| 12 | 012 | Pasya  | Male   | 45          | Tasikmalaya | 2004-03-13 |         3 | Pataruman     |   18 |
+|  7 | 007 | Adit   | Male   | 44          | Kuningan    | 2003-03-13 |         2 | Palutungan    |   19 |
+|  1 | 001 | Mega   | Female | 40          | Cirebon     | 2002-08-20 |         1 | Harjamukti    |   20 |
+| 15 | 015 | Fahira | Female | 33          | Jepara      | 2003-12-21 |         3 | Mayong        |   19 |
+| 13 | 013 | Zahra  | Female | 30          | Tasikmalaya | 2005-05-16 |         3 | Kawalu        |   17 |
+|  8 | 008 | Siti   | Female | 28          | Bandung     | 2008-02-03 |         2 | Majalaya      |   14 |
+| 14 | 014 | Fadil  | Male   | 28          | Jepara      | 2006-01-08 |         3 | Mayong        |   16 |
++----+-----+--------+--------+-------------+-------------+------------+-----------+---------------+------+
+18 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT *, YEAR(CURDATE()) - YEAR(tgl_lahir) AS umur FROM pegawai LIMIT 5;
++----+-----+--------+--------+-------------+-----------+------------+-----------+---------------+------+
+| id | nip | name   | gender | berat_badan | tmp_lahir | tgl_lahir  | divisi_id | address       | umur |
++----+-----+--------+--------+-------------+-----------+------------+-----------+---------------+------+
+|  1 | 001 | Mega   | Female | 40          | Cirebon   | 2002-08-20 |         1 | Harjamukti    |   20 |
+|  2 | 002 | Winda  | Female | 60          | Jakarta   | 1990-04-15 |         1 | cibinong      |   32 |
+|  3 | 003 | Sulis  | Female | 50          | Cirebon   | 2000-03-22 |         1 | Kanoman       |   22 |
+|  4 | 004 | Andika | Male   | 63          | Jakarta   | 1989-10-05 |         1 | Kelapa Gading |   33 |
+|  5 | 005 | Dhendy | Male   | 66          | Cirebon   | 2001-10-23 |         1 | Sumber        |   21 |
++----+-----+--------+--------+-------------+-----------+------------+-----------+---------------+------+
+5 rows in set (0.012 sec)
+
+MariaDB [dbpegawai]> SELECT *, YEAR(CURDATE()) - YEAR(tgl_lahir) AS umur FROM pegawai LIMIT 5 OFFSET 13;
++----+-----+--------+--------+-------------+-----------+------------+-----------+---------+------+
+| id | nip | name   | gender | berat_badan | tmp_lahir | tgl_lahir  | divisi_id | address | umur |
++----+-----+--------+--------+-------------+-----------+------------+-----------+---------+------+
+| 14 | 014 | Fadil  | Male   | 28          | Jepara    | 2006-01-08 |         3 | Mayong  |   16 |
+| 15 | 015 | Fahira | Female | 33          | Jepara    | 2003-12-21 |         3 | Mayong  |   19 |
+| 16 | 016 | Dika   | Male   | 70          | Surakarta | 2000-11-11 |         4 | Manahan |   22 |
+| 17 | 017 | Hanna  | Female | 65          | Surakarta | 2001-09-07 |         4 | Manahan |   21 |
+| 18 | 018 | Erik   | Male   | 69          | Surakarta | 2003-03-02 |         4 | gonilan |   19 |
++----+-----+--------+--------+-------------+-----------+------------+-----------+---------+------+
+5 rows in set (0.007 sec)
+
+MariaDB [dbpegawai]> SELECT COUNT(*) AS jml_pegawai FROM pegawai;
++-------------+
+| jml_pegawai |
++-------------+
+|          18 |
++-------------+
+1 row in set (0.041 sec)
+
+MariaDB [dbpegawai]> SELECT nip, name, YEAR(CURDATE()) - YEAR(tgl_lahir) AS umur FROM pegawai WHERE YEAR(CURDATE()) - YEAR(tgl_lahir) =
+    -> (SELECT MAX(YEAR(CURDATE()) - YEAR(tgl_lahir)) FROM pegawai);
++-----+--------+------+
+| nip | name   | umur |
++-----+--------+------+
+| 004 | Andika |   33 |
++-----+--------+------+
+1 row in set (0.112 sec)
+
+MariaDB [dbpegawai]> SELECT nip, name, berat_badan AS bb_pegawai FROM pegawai WHERE berat_badan =
+    -> (SELECT MIN(berat_badan) FROM pegawai);
++-----+-------+------------+
+| nip | name  | bb_pegawai |
++-----+-------+------------+
+| 008 | Siti  | 28         |
+| 014 | Fadil | 28         |
++-----+-------+------------+
+2 rows in set (0.030 sec)
+
+MariaDB [dbpegawai]> SELECT AVG(YEAR(CURDATE()) - YEAR(tgl_lahir)) AS umur_rata_rata FROM pegawai;
++----------------+
+| umur_rata_rata |
++----------------+
+|        20.8333 |
++----------------+
+1 row in set (0.030 sec)
+
+MariaDB [dbpegawai]> SELECT COUNT(gender) AS laki_laki FROM pegawai WHERE gender = 'Male';
++-----------+
+| laki_laki |
++-----------+
+|         8 |
++-----------+
+1 row in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT COUNT(gender) AS perempuan FROM pegawai WHERE gender = 'Female';
++-----------+
+| perempuan |
++-----------+
+|        10 |
++-----------+
+1 row in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT SUM(berat_badan) AS total_bb FROM pegawai;
++----------+
+| total_bb |
++----------+
+|      918 |
++----------+
+1 row in set (0.033 sec)
+
+MariaDB [dbpegawai]> SELECT gender, COUNT(gender) AS jml_pegawai FROM pegawai GROUP BY gender
+    -> HAVING COUNT(gender) >= 10;
++--------+-------------+
+| gender | jml_pegawai |
++--------+-------------+
+| Female |          10 |
++--------+-------------+
+1 row in set (0.033 sec)
+

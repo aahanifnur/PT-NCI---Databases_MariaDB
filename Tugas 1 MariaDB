@@ -1,0 +1,89 @@
+Nama    : Ahmad Auliya Hanif Nur
+Tugas   : 1 Maria DB
+Mentor  : Reza Maulana
+Instansi: Politeknik Negeri Semarang
+
+-- ============================================================================================= --
+
+C:\Users\User>cd C:\xampp\mysql\bin
+
+C:\xampp\mysql\bin>mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 10
+Server version: 10.4.21-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> SHOW DATABASES;
++-------------------------+
+| Database                |
++-------------------------+
+| akademik                |
+| db_a710200093_mahasiswa |
+| db_a710200093_mhs       |
+| information_schema      |
+| koperasi                |
+| mysql                   |
+| performance_schema      |
+| perpustakaan            |
+| phpmyadmin              |
+| test                    |
++-------------------------+
+10 rows in set (0.002 sec)
+
+MariaDB [(none)]> CREATE DATABASE dbpegawai;
+Query OK, 1 row affected (0.003 sec)
+
+MariaDB [(none)]> USE dbpegawai;
+Database changed
+MariaDB [dbpegawai]> CREATE TABLE divisi(
+    -> id int primary key auto_increment,
+    -> name varchar(30) not null unique);
+Query OK, 0 rows affected (0.511 sec)
+
+MariaDB [dbpegawai]> CREATE TABLE pegawai(
+    -> id int primary key auto_increment,
+    -> nip char(5) not null unique,
+    -> name varchar(30) not null,
+    -> gender enum('Male', 'Female') not null,
+    -> tmp_lahir varchar(30) not null,
+    -> tgl_lahir date not null,
+    -> divisi_id int not null references divisi(id),
+    -> address text);
+Query OK, 0 rows affected (0.433 sec)
+
+MariaDB [dbpegawai]> SHOW TABLES;
++---------------------+
+| Tables_in_dbpegawai |
++---------------------+
+| divisi              |
+| pegawai             |
++---------------------+
+2 rows in set (0.072 sec)
+
+MariaDB [dbpegawai]> DESC divisi;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | int(11)     | NO   | PRI | NULL    | auto_increment |
+| name  | varchar(30) | NO   | UNI | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+2 rows in set (0.118 sec)
+
+MariaDB [dbpegawai]> DESC pegawai;
++-----------+-----------------------+------+-----+---------+----------------+
+| Field     | Type                  | Null | Key | Default | Extra          |
++-----------+-----------------------+------+-----+---------+----------------+
+| id        | int(11)               | NO   | PRI | NULL    | auto_increment |
+| nip       | char(5)               | NO   | UNI | NULL    |                |
+| name      | varchar(30)           | NO   |     | NULL    |                |
+| gender    | enum('Male','Female') | NO   |     | NULL    |                |
+| tmp_lahir | varchar(30)           | NO   |     | NULL    |                |
+| tgl_lahir | date                  | NO   |     | NULL    |                |
+| divisi_id | int(11)               | NO   |     | NULL    |                |
+| address   | text                  | YES  |     | NULL    |                |
++-----------+-----------------------+------+-----+---------+----------------+
+8 rows in set (0.088 sec)
